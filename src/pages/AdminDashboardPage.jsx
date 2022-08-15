@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { AuthContext } from "../authContext";
 import VideoList from "../components/VideoList";
 import MkdSDK from "../utils/MkdSDK";
 
@@ -7,6 +9,13 @@ const AdminDashboardPage = () => {
   const [limit] = useState(0);
   const [videos, setVideos] = useState([]);
   const sdk = new MkdSDK();
+  const { dispatch } = React.useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/admin/login");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +33,9 @@ const AdminDashboardPage = () => {
       <div className="w-full bg-black my-text h-full py-10 px-32">
         <header className="flex justify-between mb-32">
           <span className="text-5xl font-bold text-white">APP</span>
-          <button className="btn py-3 px-5  rounded-3xl">Logout</button>
+          <button className="btn py-3 px-5  rounded-3xl" onClick={handleLogout}>
+            Logout
+          </button>
         </header>
         <section>
           <header className="flex justify-between mb-16">
