@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { AuthContext } from "../authContext";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import VideoList from "../components/VideoList";
 import MkdSDK from "../utils/MkdSDK";
 
@@ -30,7 +32,7 @@ const AdminDashboardPage = () => {
 
   return (
     <>
-      <div className="w-full bg-black my-text h-full py-10 px-32">
+      <div className="w-full bg-black my-text h-full min-h-screen py-10 px-32">
         <header className="flex justify-between mb-32">
           <span className="text-5xl font-bold text-white">APP</span>
           <button className="btn py-3 px-5  rounded-3xl" onClick={handleLogout}>
@@ -48,7 +50,7 @@ const AdminDashboardPage = () => {
               &bull; 11:30
             </div>
           </header>
-          <table className="container flex flex-col gap-4">
+          <table className="container">
             <tr className="container flex justify-between">
               <th>
                 <span className="mr-8">#</span>Title
@@ -56,7 +58,9 @@ const AdminDashboardPage = () => {
               <th>Author</th>
               <th>Most Liked</th>
             </tr>
-            <VideoList data={videos} />
+            <DndProvider backend={HTML5Backend}>
+              <VideoList data={videos} />
+            </DndProvider>
           </table>
           <div className="text-center my-16 text-black">
             <button
