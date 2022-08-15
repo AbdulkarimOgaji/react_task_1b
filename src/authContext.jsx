@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import { useNavigate } from "react-router";
 import MkdSDK from "./utils/MkdSDK";
 
 export const AuthContext = React.createContext();
@@ -13,6 +14,8 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case "LOGIN":
+      localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("role", action.payload.role);
       return {
         ...state,
         isAuthenticated: true,
@@ -46,12 +49,15 @@ export const tokenExpireError = (dispatch, errorMessage) => {
 
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     const checkToken = async () => {
       const isValid = await sdk.check(state.role);
       if (!isValid) {
-        tokenExpireError(dispatch, "TOKEN_EXPIRED");
+        const role = localStorage.getItem("role") || "admin";
+        dispatch({ type: "LOGOUT" });
+        navigate(`/${role}/login`);
       }
     };
     checkToken();
