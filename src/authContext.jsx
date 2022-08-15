@@ -48,7 +48,13 @@ const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   React.useEffect(() => {
-    //TODO
+    const checkToken = async () => {
+      const isValid = await sdk.check(state.role);
+      if (!isValid) {
+        tokenExpireError(dispatch, "TOKEN_EXPIRED");
+      }
+    };
+    checkToken();
   }, []);
 
   return (
