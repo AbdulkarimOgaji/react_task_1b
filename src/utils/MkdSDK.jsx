@@ -30,8 +30,8 @@ export default function MkdSDK() {
     });
     const jsonLoginResult = await loginResult.json();
 
-    if (loginResult.status >= 400) {
-      throw new Error(jsonLoginResult.error);
+    if (jsonLoginResult.error) {
+      throw new Error("Login Failed");
     }
     return jsonLoginResult;
   };
