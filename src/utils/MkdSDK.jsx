@@ -12,9 +12,27 @@ export default function MkdSDK() {
   this.setTable = function (table) {
     this._table = table;
   };
-  
   this.login = async function (email, password, role) {
-    //TODO
+    const header = {
+      "Content-Type": "application/json",
+      "x-project":
+        "cmVhY3R0YXNrOjVmY2h4bjVtOGhibzZqY3hpcTN4ZGRvZm9kb2Fjc2t5ZQ==",
+    };
+    const loginResult = await fetch(this._baseurl + `/v2/api/lambda/login`, {
+      method: "post",
+      headers: header,
+      body: JSON.stringify({
+        email,
+        password,
+        role,
+      }),
+    });
+    const jsonLoginResult = await loginResult.json();
+
+    if (loginResult.status >= 400) {
+      throw new Error(jsonLoginResult.error);
+    }
+    return jsonLoginResult;
   };
 
   this.getHeader = function () {
