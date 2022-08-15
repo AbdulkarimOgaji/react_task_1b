@@ -51,16 +51,23 @@ const AdminDashboardPage = () => {
             </div>
           </header>
           <table className="container">
-            <tr className="container flex justify-between">
+            <thead className="container">
+              <tr className=" flex justify-between">
               <th>
                 <span className="mr-8">#</span>Title
               </th>
               <th>Author</th>
               <th>Most Liked</th>
-            </tr>
-            <DndProvider backend={HTML5Backend}>
-              <VideoList data={videos} />
-            </DndProvider>
+              </tr>
+            </thead>
+            {
+              videos.length > 0 && (
+              <DndProvider backend={HTML5Backend}>
+                <VideoList data={videos} />
+              </DndProvider>
+              )
+            }
+            
           </table>
           <div className="text-center my-16 text-black">
             <button

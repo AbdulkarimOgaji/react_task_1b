@@ -1,9 +1,14 @@
 import React, { useCallback, useState } from "react";
 import update from "immutability-helper";
 import SingleVideo from "./SingleVideo";
+import { useEffect } from "react";
 
 const VideoList = ({ data }) => {
   const [videos, setVideos] = useState(data);
+
+  useEffect(() => {
+    setVideos(data)
+  }, [data])
   const moveCard = useCallback((dragIndex, hoverIndex) => {
     setVideos((prevCards) =>
       update(prevCards, {

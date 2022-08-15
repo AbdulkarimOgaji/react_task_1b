@@ -14,27 +14,20 @@ export default function MkdSDK() {
   };
 
   this.login = async function (email, password, role) {
+    const url = this._baseurl + `/v2/api/lambda/login`
     const header = {
-      "Content-Type": "application/json",
-      "x-project":
-        "cmVhY3R0YXNrOjVmY2h4bjVtOGhibzZqY3hpcTN4ZGRvZm9kb2Fjc2t5ZQ==",
-    };
-    const loginResult = await fetch(this._baseurl + `/v2/api/lambda/login`, {
-      method: "post",
-      headers: header,
-      body: JSON.stringify({
-        email,
-        password,
-        role,
-      }),
-    });
-    const jsonLoginResult = await loginResult.json();
-
-    if (jsonLoginResult.error) {
-      throw new Error("Login Failed");
+      'content-type': 'application/json',
+      'x-project':
+        'cmVhY3R0YXNrOjVmY2h4bjVtOGhibzZqY3hpcTN4ZGRvZm9kb2Fjc2t5ZQ==',
     }
-    return jsonLoginResult;
-  };
+    const result = await fetch(url, {
+      method: 'POST',
+      headers: header,
+      body: JSON.stringify({ email: email, password: password, role: role }),
+    })
+    const user = await result.json()
+    return user
+  }
 
   this.getHeader = function () {
     return {
